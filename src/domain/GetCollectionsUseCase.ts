@@ -9,4 +9,8 @@ export class GetCollectionsUseCase {
   async execute(): Promise<Collection[]> {
     return await this.getCollectionsRepository.getCollections();
   }
+
+  async getCollectionByName(name: string): Promise<Collection> {
+    return await this.getCollectionsRepository.getCollectionByName(name);
+  }
 }
