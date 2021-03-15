@@ -8,10 +8,6 @@ export class AxiosGetCollectionsRepository implements GetCollectionsRepository {
 
   constructor(private readonly axios: AxiosInstance) {}
 
-  getCollectionByName(name: string): Promise<Collection> {
-    throw new Error("Method not implemented.");
-  }
-
   async getCollections(): Promise<Collection[]> {
     let axiosResponse = await this.axios.get<CollectionDto[]>(this.path);
     return axiosResponse.data.map((collection) => ({ ...collection }));
