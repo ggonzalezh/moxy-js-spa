@@ -1,11 +1,11 @@
 import { CollectionViewModel } from "../model/CollectionViewModel";
-import { List } from "antd";
+import { List, PageHeader } from "antd";
 import CollectionCard from "../component/CollectionCard";
 import { GetCollectionsUseCase } from "../../domain/GetCollectionsUseCase";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CollectionToCollectionViewModelMapper } from "../mapper/CollectionToCollectionViewModelMapper";
 
-let CollectionsRoute = ({
+const CollectionsRoute = ({
   getCollectionsUseCase,
   collectionMapper,
 }: CollectionsRouteProps) => {
@@ -20,15 +20,18 @@ let CollectionsRoute = ({
   }, [getCollectionsUseCase, collectionMapper]);
 
   return (
-    <List
-      grid={{ gutter: 16, column: 4 }}
-      dataSource={collections}
-      renderItem={(item) => (
-        <List.Item>
-          <CollectionCard {...item} />
-        </List.Item>
-      )}
-    />
+    <>
+      <PageHeader className={"content-header"} title={"Collections"} />
+      <List
+        grid={{ gutter: 16, column: 4 }}
+        dataSource={collections}
+        renderItem={(item) => (
+          <List.Item>
+            <CollectionCard {...item} />
+          </List.Item>
+        )}
+      />
+    </>
   );
 };
 

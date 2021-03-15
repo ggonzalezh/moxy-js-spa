@@ -1,17 +1,17 @@
 import React from "react";
 import { Layout, Menu, Typography } from "antd";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import { PathList } from "./ui/component/Path/PathList";
 import { FolderOutlined } from "@ant-design/icons";
 import CollectionsRoute from "./ui/routes/CollectionsRoute";
-import { buildCollectionProps } from "./common/Config";
+import { buildCollectionProps, buildPathProps } from "./common/Config";
+import PathsRoute from "./ui/routes/PathsRoute";
 
 const { Sider, Header, Content } = Layout;
 
 function App() {
   return (
-    <Layout style={{ height: "100vh" }}>
+    <Layout style={{ minHeight: "100vh" }}>
       <Sider theme="dark" trigger={null}>
         <div className="logo">
           <Typography.Title style={{ color: "#fff" }}>moxy</Typography.Title>
@@ -40,8 +40,17 @@ function App() {
                 exact
                 path="/"
                 render={() => <CollectionsRoute {...buildCollectionProps()} />}
-              ></Route>
-              <Route exact path="/:mockName" component={PathList}></Route>
+              />
+              <Route
+                exact
+                path="/:collectionName"
+                render={(props) => (
+                  <PathsRoute
+                    {...buildPathProps()}
+                    collectionName={props.match.params.collectionName}
+                  />
+                )}
+              />
             </Switch>
           </Content>
         </Router>
