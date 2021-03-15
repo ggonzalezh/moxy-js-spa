@@ -13,4 +13,5 @@ const CollectionCard = (collection: CollectionViewModel) => {
     </Link>
   );
 };
+
 export default CollectionCard;
