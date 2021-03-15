@@ -1,4 +1,4 @@
-export interface RouteViewModel {
+export interface PathViewModel {
   id?: string;
   collection: string;
   type: string;
@@ -6,14 +6,14 @@ export interface RouteViewModel {
   method: string;
 }
 
-export interface MockViewModel extends RouteViewModel {
+export interface MockViewModel extends PathViewModel {
   type: "mock";
   responseBody: string;
   contentType: string;
   encoded: boolean;
 }
 
-export interface ProxyViewModel extends RouteViewModel {
+export interface ProxyViewModel extends PathViewModel {
   type: "proxy";
   target: string;
 }

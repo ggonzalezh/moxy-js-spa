@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import PathEditor from "../container/PathEditor";
 import { AddPathUseCase } from "../../domain/AddPathUseCase";
 import { useHistory } from "react-router-dom";
-import { PathTables } from "../component/Table/PathTables";
+import { PathTable } from "../component/Table/PathTable";
 import { GetCollectionByNameUseCase } from "../../domain/GetCollectionByNameUseCase";
 import { CollectionViewModel } from "../model/CollectionViewModel";
 import { CollectionToCollectionViewModelMapper } from "../mapper/CollectionToCollectionViewModelMapper";
@@ -51,7 +51,7 @@ const PathsRoute = ({
         title={"Paths"}
         subTitle={collectionName}
       />
-      <PathTables routes={collection?.routes || []} showDrawer={showDrawer} />
+      <PathTable paths={collection?.paths || []} showDrawer={showDrawer} />
       <Button type="primary" onClick={showDrawer}>
         Add Path
       </Button>

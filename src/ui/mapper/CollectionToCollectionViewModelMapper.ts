@@ -10,10 +10,10 @@ export class CollectionToCollectionViewModelMapper extends Mapper<
   map(collection: Collection): CollectionViewModel {
     return {
       name: collection.name,
-      routes: collection.routes?.map((route) => {
-        switch (route.type) {
+      paths: collection.paths?.map((path) => {
+        switch (path.type) {
           case "mock":
-            const mock = route as Mock;
+            const mock = path as Mock;
 
             return {
               id: mock.id,
@@ -27,15 +27,15 @@ export class CollectionToCollectionViewModelMapper extends Mapper<
             };
           case "proxy":
             return {
-              id: route.id,
-              collection: route.collection,
-              type: route.type,
-              path: route.path,
-              method: route.method,
+              id: path.id,
+              collection: path.collection,
+              type: path.type,
+              path: path.path,
+              method: path.method,
             };
         }
       }),
-      pathNumber: collection.routes?.length || 0,
+      pathNumber: collection.paths?.length || 0,
     };
   }
 }
