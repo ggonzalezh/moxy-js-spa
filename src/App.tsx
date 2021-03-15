@@ -1,6 +1,8 @@
 import React from "react";
 import { Layout, Menu, Typography } from "antd";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
+import { PathList } from "./ui/component/Path/PathList";
 import { FolderOutlined } from "@ant-design/icons";
 import CollectionsRoute from "./ui/routes/CollectionsRoute";
 import { buildCollectionProps } from "./common/Config";
@@ -24,16 +26,25 @@ function App() {
         <Header className="site-layout-background" style={{ padding: 0 }}>
           &nbsp;
         </Header>
-        <Content
-          className="site-layout-background"
-          style={{
-            margin: "24px 16px",
-            padding: 24,
-            minHeight: 280,
-          }}
-        >
-          <CollectionsRoute {...buildCollectionProps()} />
-        </Content>
+        <Router>
+          <Content
+            className="site-layout-background"
+            style={{
+              margin: "24px 16px",
+              padding: 24,
+              minHeight: 280,
+            }}
+          >
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={() => <CollectionsRoute {...buildCollectionProps()} />}
+              ></Route>
+              <Route exact path="/:mockName" component={PathList}></Route>
+            </Switch>
+          </Content>
+        </Router>
       </Layout>
     </Layout>
   );
