@@ -1,12 +1,16 @@
 import React from "react";
 import { CollectionViewModel } from "../model/CollectionViewModel";
+import { Link } from "react-router-dom";
 import { Card } from "antd";
 
-let CollectionCard = (collection: CollectionViewModel) => {
+const CollectionCard = (collection: CollectionViewModel) => {
+  const { name, pathNumber } = collection;
   return (
-    <Card title={collection.name} hoverable={true}>
-      <p>{collection.pathNumber} paths registered</p>
-    </Card>
+    <Link to={`./${name}`}>
+      <Card title={name} hoverable={true}>
+        <p>{pathNumber} paths registered</p>
+      </Card>
+    </Link>
   );
 };
 export default CollectionCard;
