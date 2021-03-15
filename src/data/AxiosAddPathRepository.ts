@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import { AddPathRepository } from "../domain/repository/AddPathRepository";
-import { Path } from "../domain/model /Path";
+import { Path } from "../domain/model/Path";
 
 export class AxiosAddPathRepository implements AddPathRepository {
   constructor(private readonly axios: AxiosInstance) {}

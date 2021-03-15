@@ -1,16 +1,23 @@
 import React from "react";
 import { RouteViewModel } from "../../model/RouteViewModel";
-import { Table } from "antd";
+import { Button, Table } from "antd";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
-export const PathTables = ({ routes }: RouteProps) => {
-  console.log(routes);
+export const PathTables = ({ routes, showDrawer }: RouteProps) => {
   const columns = [
-    { title: "Collection", dataIndex: "collection", key: "collection" },
     { title: "Type", dataIndex: "type", key: "type" },
     { title: "Path", dataIndex: "path", key: "path" },
     { title: "Method", dataIndex: "method", key: "method" },
+    {
+      title: "Action",
+      key: "action",
+      render: () => (
+        <div>
+          <Button onClick={showDrawer}>Modify</Button>
+        </div>
+      ),
+    },
   ];
   return (
     <div>
@@ -23,4 +30,5 @@ export const PathTables = ({ routes }: RouteProps) => {
 
 export interface RouteProps {
   routes: RouteViewModel[];
+  showDrawer(): void;
 }

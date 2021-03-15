@@ -1,5 +1,5 @@
 import { AxiosInstance } from "axios";
-import { Collection } from "../domain/model /Collection";
+import { Collection } from "../domain/model/Collection";
 import { CollectionDto } from "./model/CollectionDto";
 import { GetCollectionsRepository } from "../domain/repository/GetCollectionsRepository";
 

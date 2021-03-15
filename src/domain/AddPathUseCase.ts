@@ -1,4 +1,4 @@
-import { Path } from "./model /Path";
+import { Path } from "./model/Path";
 import { AddPathRepository } from "./repository/AddPathRepository";
 
 export class AddPathUseCase {

@@ -1,5 +1,5 @@
 import { GetCollectionsRepository } from "./repository/GetCollectionsRepository";
-import { Collection } from "./model /Collection";
+import { Collection } from "./model/Collection";
 
 export class GetCollectionsUseCase {
   constructor(

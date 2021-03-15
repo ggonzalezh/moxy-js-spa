@@ -51,7 +51,7 @@ const PathsRoute = ({
         title={"Paths"}
         subTitle={collectionName}
       />
-      <PathTables routes={collection?.routes || []} />
+      <PathTables routes={collection?.routes || []} showDrawer={showDrawer} />
       <Button type="primary" onClick={showDrawer}>
         Add Path
       </Button>
