@@ -30,5 +30,5 @@ export const PathTables = ({ routes, showDrawer }: RouteProps) => {
 
 export interface RouteProps {
   routes: RouteViewModel[];
-  showDrawer(): void;
+  showDrawer: () => void;
 }
