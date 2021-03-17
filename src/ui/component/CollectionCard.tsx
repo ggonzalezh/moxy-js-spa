@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import { Card } from "antd";
 
 const CollectionCard = (collection: CollectionViewModel) => {
-  const { name, pathNumber } = collection;
+  const { id, name, pathNumber } = collection;
   return (
-    <Link to={`./${name}`}>
+    <Link to={`./${id}`}>
       <Card title={name} hoverable={true}>
         <p>{pathNumber} paths registered</p>
       </Card>

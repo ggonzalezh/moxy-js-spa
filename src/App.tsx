@@ -43,11 +43,11 @@ function App() {
               />
               <Route
                 exact
-                path="/:collectionName"
+                path="/:collectionId"
                 render={(props) => (
                   <PathsRoute
                     {...buildPathProps()}
-                    collectionName={props.match.params.collectionName}
+                    collectionId={props.match.params.collectionId}
                   />
                 )}
               />

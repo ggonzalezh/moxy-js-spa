@@ -3,16 +3,16 @@ import React, { useEffect, useState } from "react";
 import PathEditor from "../container/PathEditor";
 import { AddPathUseCase } from "../../domain/AddPathUseCase";
 import { useHistory } from "react-router-dom";
-import { PathTables } from "../component/Table/PathTables";
-import { GetCollectionByNameUseCase } from "../../domain/GetCollectionByNameUseCase";
+import { PathTables } from "../component/Table/PathTable";
+import { GetCollectionByIdUseCase } from "../../domain/GetCollectionByIdUseCase";
 import { CollectionViewModel } from "../model/CollectionViewModel";
 import { CollectionToCollectionViewModelMapper } from "../mapper/CollectionToCollectionViewModelMapper";
 
 const PathsRoute = ({
   addPathUseCase,
-  collectionName,
-  getCollectionByNameUseCase,
+  getCollectionByIdUseCase,
   collectionMapper,
+  collectionId,
 }: PathsRouteProps) => {
   const [collection, setCollection] = useState<CollectionViewModel>();
   const [isNewPath, setIsNewPath] = useState(false);
@@ -29,7 +29,7 @@ const PathsRoute = ({
   };
 
   const onSave = async (newPath: any) => {
-    await addPathUseCase.execute({ collection: collectionName, ...newPath });
+    await addPathUseCase.execute({ collection: collectionId, ...newPath });
     setIsNewPath(true);
     hideDrawer();
     message.success("Path created");
@@ -38,8 +38,8 @@ const PathsRoute = ({
   const onSaveClick = () => pathEditorForm.submit();
 
   useEffect(() => {
-    getCollectionByNameUseCase
-      .execute(collectionName ? collectionName : "")
+    getCollectionByIdUseCase
+      .execute(collectionId ? collectionId : "")
       .then((collection) => setCollection(collectionMapper.map(collection)));
   }, [isNewPath]);
 
@@ -49,9 +49,9 @@ const PathsRoute = ({
         className={"content-header"}
         onBack={() => history.goBack()}
         title={"Paths"}
-        subTitle={collectionName}
+        subTitle={collection?.name}
       />
-      <PathTables routes={collection?.routes || []} showDrawer={showDrawer} />
+      <PathTables paths={collection?.paths || []} showDrawer={showDrawer} />
       <Button type="primary" onClick={showDrawer}>
         Add Path
       </Button>
@@ -85,9 +85,9 @@ const PathsRoute = ({
 
 export interface PathsRouteProps {
   collectionMapper: CollectionToCollectionViewModelMapper;
-  getCollectionByNameUseCase: GetCollectionByNameUseCase;
+  getCollectionByIdUseCase: GetCollectionByIdUseCase;
   addPathUseCase: AddPathUseCase;
-  collectionName?: string;
+  collectionId?: string;
 }
 
 export default PathsRoute;

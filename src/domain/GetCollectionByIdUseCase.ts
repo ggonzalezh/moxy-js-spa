@@ -1,12 +1,12 @@
 import { GetCollectionByNameRepository } from "./repository/GetCollectionByNameRepository";
 import { Collection } from "./model/Collection";
 
-export class GetCollectionByNameUseCase {
+export class GetCollectionByIdUseCase {
   constructor(
     private readonly getCollectionsRepository: GetCollectionByNameRepository
   ) {}
 
-  async execute(name: string): Promise<Collection> {
-    return await this.getCollectionsRepository.getCollectionByName(name);
+  async execute(id: string): Promise<Collection> {
+    return await this.getCollectionsRepository.getCollectionById(id);
   }
 }

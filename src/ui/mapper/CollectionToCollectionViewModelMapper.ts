@@ -9,8 +9,9 @@ export class CollectionToCollectionViewModelMapper extends Mapper<
 > {
   map(collection: Collection): CollectionViewModel {
     return {
+      id: collection.id,
       name: collection.name,
-      routes: collection.routes?.map((route) => {
+      paths: collection.paths?.map((route) => {
         switch (route.type) {
           case "mock":
             const mock = route as Mock;
@@ -35,7 +36,7 @@ export class CollectionToCollectionViewModelMapper extends Mapper<
             };
         }
       }),
-      pathNumber: collection.routes?.length || 0,
+      pathNumber: collection.paths?.length || 0,
     };
   }
 }

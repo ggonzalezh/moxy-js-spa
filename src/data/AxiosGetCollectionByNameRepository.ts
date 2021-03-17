@@ -5,12 +5,12 @@ import { GetCollectionByNameRepository } from "../domain/repository/GetCollectio
 
 export class AxiosGetCollectionByNameRepository
   implements GetCollectionByNameRepository {
-  private readonly path = "/collections/";
+  private readonly path = "/collections";
 
   constructor(private readonly axios: AxiosInstance) {}
 
-  async getCollectionByName(name: string): Promise<Collection> {
-    let { data } = await this.axios.get<CollectionDto>(`${this.path}${name}`);
+  async getCollectionById(id: string): Promise<Collection> {
+    let { data } = await this.axios.get<CollectionDto>(`${this.path}/${id}`);
     return data;
   }
 }

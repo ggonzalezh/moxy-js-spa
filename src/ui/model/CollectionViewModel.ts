@@ -1,7 +1,8 @@
-import { RouteViewModel } from "./RouteViewModel";
+import { PathViewModel } from "./PathViewModel";
 
 export interface CollectionViewModel {
+  id: string;
   name: string;
-  routes?: RouteViewModel[];
+  paths?: PathViewModel[];
   pathNumber: number;
 }

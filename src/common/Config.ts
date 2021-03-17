@@ -6,7 +6,7 @@ import { CollectionToCollectionViewModelMapper } from "../ui/mapper/CollectionTo
 import { PathsRouteProps } from "../ui/routes/PathsRoute";
 import { AxiosAddPathRepository } from "../data/AxiosAddPathRepository";
 import { AddPathUseCase } from "../domain/AddPathUseCase";
-import { GetCollectionByNameUseCase } from "../domain/GetCollectionByNameUseCase";
+import { GetCollectionByIdUseCase } from "../domain/GetCollectionByIdUseCase";
 import { AxiosGetCollectionByNameRepository } from "../data/AxiosGetCollectionByNameRepository";
 
 const axiosInstance = axios.create({ baseURL: "" });
@@ -25,7 +25,7 @@ export function buildPathProps(): PathsRouteProps {
     addPathUseCase: new AddPathUseCase(
       new AxiosAddPathRepository(axiosInstance)
     ),
-    getCollectionByNameUseCase: new GetCollectionByNameUseCase(
+    getCollectionByIdUseCase: new GetCollectionByIdUseCase(
       new AxiosGetCollectionByNameRepository(axiosInstance)
     ),
     collectionMapper: new CollectionToCollectionViewModelMapper(),
