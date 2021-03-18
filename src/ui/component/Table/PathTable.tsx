@@ -1,5 +1,5 @@
 import React from "react";
-import { PathViewModel } from "../../model/PathViewModel";
+import { PathViewModel } from "../../context/model/PathViewModel";
 import { Button, Table } from "antd";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -22,7 +22,11 @@ export const PathTables = ({ paths, showDrawer }: PathTableProps) => {
   return (
     <div>
       <DndProvider backend={HTML5Backend}>
-        <Table dataSource={paths} columns={columns} />
+        <Table
+          dataSource={paths}
+          columns={columns}
+          rowKey={(path: PathViewModel) => path.id || ""}
+        />
       </DndProvider>
     </div>
   );

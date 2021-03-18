@@ -1,23 +1,10 @@
-import { CollectionViewModel } from "../model/CollectionViewModel";
 import { List, PageHeader } from "antd";
 import CollectionCard from "../component/CollectionCard";
-import { GetCollectionsUseCase } from "../../domain/GetCollectionsUseCase";
-import React, { useEffect, useState } from "react";
-import { CollectionToCollectionViewModelMapper } from "../mapper/CollectionToCollectionViewModelMapper";
+import React, { useContext } from "react";
+import { CollectionContext } from "../context/CollectionProvider";
 
-const CollectionsRoute = ({
-  getCollectionsUseCase,
-  collectionMapper,
-}: CollectionsRouteProps) => {
-  const [collections, setCollections] = useState<CollectionViewModel[]>([]);
-
-  useEffect(() => {
-    getCollectionsUseCase
-      .execute()
-      .then((collections) =>
-        setCollections(collectionMapper.mapArray(collections))
-      );
-  }, [getCollectionsUseCase, collectionMapper]);
+const CollectionsRoute = () => {
+  const { collections } = useContext(CollectionContext);
 
   return (
     <>
@@ -34,10 +21,5 @@ const CollectionsRoute = ({
     </>
   );
 };
-
-export interface CollectionsRouteProps {
-  getCollectionsUseCase: GetCollectionsUseCase;
-  collectionMapper: CollectionToCollectionViewModelMapper;
-}
 
 export default CollectionsRoute;

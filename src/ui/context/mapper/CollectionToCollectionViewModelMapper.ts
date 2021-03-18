@@ -1,7 +1,7 @@
-import { Collection } from "../../domain/model/Collection";
+import { Collection } from "../../../domain/model/Collection";
 import { CollectionViewModel } from "../model/CollectionViewModel";
-import { Mapper } from "../../common/Mapper";
-import { Mock } from "../../domain/model/Path";
+import { Mapper } from "../../../common/Mapper";
+import { Mock } from "../../../domain/model/Path";
 
 export class CollectionToCollectionViewModelMapper extends Mapper<
   Collection,
@@ -11,7 +11,7 @@ export class CollectionToCollectionViewModelMapper extends Mapper<
     return {
       id: collection.id,
       name: collection.name,
-      paths: collection.paths?.map((route) => {
+      paths: collection.paths.map((route) => {
         switch (route.type) {
           case "mock":
             const mock = route as Mock;
@@ -27,6 +27,14 @@ export class CollectionToCollectionViewModelMapper extends Mapper<
               encoded: mock.encoded,
             };
           case "proxy":
+            return {
+              id: route.id,
+              collection: route.collection,
+              type: route.type,
+              path: route.path,
+              method: route.method,
+            };
+          default:
             return {
               id: route.id,
               collection: route.collection,

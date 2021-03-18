@@ -1,5 +1,5 @@
 import React from "react";
-import { CollectionViewModel } from "../model/CollectionViewModel";
+import { CollectionViewModel } from "../context/model/CollectionViewModel";
 import { Link } from "react-router-dom";
 import { Card } from "antd";
 

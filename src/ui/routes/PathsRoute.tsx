@@ -1,47 +1,29 @@
-import { Button, Drawer, Form, message, PageHeader } from "antd";
-import React, { useEffect, useState } from "react";
+import { Button, Drawer, Form, PageHeader } from "antd";
+import React, { useContext, useEffect } from "react";
 import PathEditor from "../container/PathEditor";
-import { AddPathUseCase } from "../../domain/AddPathUseCase";
 import { useHistory } from "react-router-dom";
 import { PathTables } from "../component/Table/PathTable";
-import { GetCollectionByIdUseCase } from "../../domain/GetCollectionByIdUseCase";
-import { CollectionViewModel } from "../model/CollectionViewModel";
-import { CollectionToCollectionViewModelMapper } from "../mapper/CollectionToCollectionViewModelMapper";
+import { IPathContext, PathContext } from "../context/PathProvider";
 
-const PathsRoute = ({
-  addPathUseCase,
-  getCollectionByIdUseCase,
-  collectionMapper,
-  collectionId,
-}: PathsRouteProps) => {
-  const [collection, setCollection] = useState<CollectionViewModel>();
-  const [isNewPath, setIsNewPath] = useState(false);
-  const [isDrawerVisible, setDrawerVisibility] = useState(false);
+const PathsRoute = ({ collectionId }: PathsRouteProps) => {
+  const {
+    collectionName,
+    setCollectionId,
+    paths,
+    showDrawer,
+    hideDrawer,
+    addPath,
+    isDrawerVisible,
+  } = useContext<IPathContext>(PathContext);
+
   const [pathEditorForm] = Form.useForm();
   const history = useHistory();
 
-  const showDrawer = () => {
-    setDrawerVisibility(true);
-  };
-
-  const hideDrawer = () => {
-    setDrawerVisibility(false);
-  };
-
-  const onSave = async (newPath: any) => {
-    await addPathUseCase.execute({ collection: collectionId, ...newPath });
-    setIsNewPath(true);
-    hideDrawer();
-    message.success("Path created");
-  };
+  useEffect(() => {
+    setCollectionId(collectionId);
+  }, [setCollectionId, collectionId]);
 
   const onSaveClick = () => pathEditorForm.submit();
-
-  useEffect(() => {
-    getCollectionByIdUseCase
-      .execute(collectionId ? collectionId : "")
-      .then((collection) => setCollection(collectionMapper.map(collection)));
-  }, [isNewPath]);
 
   return (
     <>
@@ -49,9 +31,9 @@ const PathsRoute = ({
         className={"content-header"}
         onBack={() => history.goBack()}
         title={"Paths"}
-        subTitle={collection?.name}
+        subTitle={collectionName}
       />
-      <PathTables paths={collection?.paths || []} showDrawer={showDrawer} />
+      <PathTables paths={paths} showDrawer={showDrawer} />
       <Button type="primary" onClick={showDrawer}>
         Add Path
       </Button>
@@ -77,17 +59,14 @@ const PathsRoute = ({
           </div>
         }
       >
-        <PathEditor pathEditorForm={pathEditorForm} onSave={onSave} />
+        <PathEditor pathEditorForm={pathEditorForm} onSave={addPath} />
       </Drawer>
     </>
   );
 };
 
 export interface PathsRouteProps {
-  collectionMapper: CollectionToCollectionViewModelMapper;
-  getCollectionByIdUseCase: GetCollectionByIdUseCase;
-  addPathUseCase: AddPathUseCase;
-  collectionId?: string;
+  collectionId: string;
 }
 
 export default PathsRoute;

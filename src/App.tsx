@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import { FolderOutlined } from "@ant-design/icons";
 import CollectionsRoute from "./ui/routes/CollectionsRoute";
-import { buildCollectionProps, buildPathProps } from "./common/Config";
+import { CollectionProvider, PathProvider } from "./common/Config";
 import PathsRoute from "./ui/routes/PathsRoute";
 
 const { Sider, Header, Content } = Layout;
@@ -39,16 +39,21 @@ function App() {
               <Route
                 exact
                 path="/"
-                render={() => <CollectionsRoute {...buildCollectionProps()} />}
+                render={() => (
+                  <CollectionProvider>
+                    <CollectionsRoute />
+                  </CollectionProvider>
+                )}
               />
               <Route
                 exact
                 path="/:collectionId"
                 render={(props) => (
-                  <PathsRoute
-                    {...buildPathProps()}
-                    collectionId={props.match.params.collectionId}
-                  />
+                  <PathProvider>
+                    <PathsRoute
+                      collectionId={props.match.params.collectionId}
+                    />
+                  </PathProvider>
                 )}
               />
             </Switch>
