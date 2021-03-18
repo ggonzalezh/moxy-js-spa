@@ -1,13 +1,10 @@
 import React from "react";
 import { Layout, Menu, Typography } from "antd";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import { FolderOutlined } from "@ant-design/icons";
-import CollectionsRoute from "./ui/routes/CollectionsRoute";
-import { CollectionProvider, PathProvider } from "./common/Config";
-import PathsRoute from "./ui/routes/PathsRoute";
+import { ContentRouter } from "./ui/routes/ContentRouter";
 
-const { Sider, Header, Content } = Layout;
+const { Sider, Header } = Layout;
 
 function App() {
   return (
@@ -22,43 +19,12 @@ function App() {
           </Menu.Item>
         </Menu>
       </Sider>
+
       <Layout className="site-layout">
         <Header className="site-layout-background" style={{ padding: 0 }}>
           &nbsp;
         </Header>
-        <Router>
-          <Content
-            className="site-layout-background"
-            style={{
-              margin: "24px 16px",
-              padding: 24,
-              minHeight: 280,
-            }}
-          >
-            <Switch>
-              <Route
-                exact
-                path="/"
-                render={() => (
-                  <CollectionProvider>
-                    <CollectionsRoute />
-                  </CollectionProvider>
-                )}
-              />
-              <Route
-                exact
-                path="/:collectionId"
-                render={(props) => (
-                  <PathProvider>
-                    <PathsRoute
-                      collectionId={props.match.params.collectionId}
-                    />
-                  </PathProvider>
-                )}
-              />
-            </Switch>
-          </Content>
-        </Router>
+        <ContentRouter></ContentRouter>
       </Layout>
     </Layout>
   );
