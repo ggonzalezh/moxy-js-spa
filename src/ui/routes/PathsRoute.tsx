@@ -30,7 +30,7 @@ const PathsRoute = ({ collectionId }: PathsRouteProps) => {
         title={"Paths"}
         subTitle={collectionName}
         extra={[
-          <Button type="primary" onClick={showDrawer}>
+          <Button type="primary" onClick={showDrawer} key={"add-button"}>
             Add Path
           </Button>,
         ]}

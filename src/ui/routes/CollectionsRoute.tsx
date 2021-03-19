@@ -16,7 +16,7 @@ const CollectionsRoute = () => {
         className={"content-header"}
         title={"Collections"}
         extra={[
-          <Button type="primary" onClick={showDrawer}>
+          <Button type="primary" onClick={showDrawer} key={"add-button"}>
             Add Collection
           </Button>,
         ]}

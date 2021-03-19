@@ -31,6 +31,7 @@ export const createPathProvider = ({
   const [collectionName, setCollectionName] = useState("");
   const [paths, setPaths] = useState<PathViewModel[]>([]);
   const [isDrawerVisible, setDrawerVisibility] = useState(false);
+  const [shouldRefresh, refresh] = useState<any>({});
 
   useEffect(() => {
     if (collectionId) {
@@ -42,14 +43,13 @@ export const createPathProvider = ({
           setPaths(collectionViewModel.paths);
         });
     }
-  }, [collectionId]);
+  }, [collectionId, shouldRefresh]);
 
-  const addPath = (path: any) => {
-    addPathUseCase.execute({ collection: collectionId, ...path }).then(() => {
-      console.log("executed");
-      hideDrawer();
-      message.success("Path created");
-    });
+  const addPath = async (path: any) => {
+    await addPathUseCase.execute({ collection: collectionId, ...path });
+    hideDrawer();
+    message.success("Path created");
+    refresh({});
   };
 
   const showDrawer = () => {

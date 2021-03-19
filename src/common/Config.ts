@@ -7,12 +7,17 @@ import { GetCollectionByIdUseCase } from "../domain/GetCollectionByIdUseCase";
 import { AxiosGetCollectionByNameRepository } from "../data/AxiosGetCollectionByNameRepository";
 import { createCollectionProvider, createPathProvider } from "../ui/context";
 import { AxiosGetCollectionsRepository } from "../data/AxiosGetCollectionsRepository";
+import { AddCollectionUseCase } from "../domain/AddCollectionUseCase";
+import { AxiosAddCollectionRepository } from "../data/AxiosAddCollectionRepository";
 
 const axiosInstance = axios.create({ baseURL: "" });
 
 export const CollectionProvider = createCollectionProvider({
   getCollectionsUseCase: new GetCollectionsUseCase(
     new AxiosGetCollectionsRepository(axiosInstance)
+  ),
+  addCollectionUseCase: new AddCollectionUseCase(
+    new AxiosAddCollectionRepository(axiosInstance)
   ),
   collectionMapper: new CollectionToCollectionViewModelMapper(),
 });

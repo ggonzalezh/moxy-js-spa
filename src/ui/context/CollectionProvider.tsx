@@ -2,6 +2,8 @@ import React, { createContext, useEffect, useState } from "react";
 import { CollectionViewModel } from "./model/CollectionViewModel";
 import { GetCollectionsUseCase } from "../../domain/GetCollectionsUseCase";
 import { CollectionToCollectionViewModelMapper } from "./mapper/CollectionToCollectionViewModelMapper";
+import { AddCollectionUseCase } from "../../domain/AddCollectionUseCase";
+import { message } from "antd";
 
 export interface ICollectionContext {
   collections: CollectionViewModel[];
@@ -9,23 +11,25 @@ export interface ICollectionContext {
   isDrawerVisible: boolean;
   showDrawer: () => void;
   hideDrawer: () => void;
-  addCollection: () => void;
+  addCollection: (collection: any) => void;
 }
 
 export const createCollectionProvider = ({
   getCollectionsUseCase,
+  addCollectionUseCase,
   collectionMapper,
 }: ICollectionDependencies): React.FC => {
   return ({ children }) => {
     const [collections, setCollections] = useState<CollectionViewModel[]>([]);
     const [isDrawerVisible, setDrawerVisibility] = useState(false);
+    const [shouldRefresh, refresh] = useState<any>({});
 
     useEffect(() => {
       getCollectionsUseCase
         .execute()
         .then((collections) => collectionMapper.mapArray(collections))
         .then(setCollections);
-    }, []);
+    }, [shouldRefresh]);
 
     const getCollections = async () => {
       setCollections(
@@ -33,7 +37,12 @@ export const createCollectionProvider = ({
       );
     };
 
-    const addCollection = async () => {};
+    const addCollection = async (collection: any) => {
+      await addCollectionUseCase.execute(collection);
+      hideDrawer();
+      message.success("Collection created");
+      refresh({});
+    };
 
     const showDrawer = () => {
       setDrawerVisibility(true);
@@ -43,17 +52,17 @@ export const createCollectionProvider = ({
       setDrawerVisibility(false);
     };
 
-    const context = {
-      collections,
-      getCollections,
-      showDrawer,
-      hideDrawer,
-      isDrawerVisible,
-      addCollection,
-    };
-
     return (
-      <CollectionContext.Provider value={context}>
+      <CollectionContext.Provider
+        value={{
+          collections,
+          getCollections,
+          showDrawer,
+          hideDrawer,
+          isDrawerVisible,
+          addCollection,
+        }}
+      >
         {children}
       </CollectionContext.Provider>
     );
@@ -62,6 +71,7 @@ export const createCollectionProvider = ({
 
 interface ICollectionDependencies {
   getCollectionsUseCase: GetCollectionsUseCase;
+  addCollectionUseCase: AddCollectionUseCase;
   collectionMapper: CollectionToCollectionViewModelMapper;
 }
 
