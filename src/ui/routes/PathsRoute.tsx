@@ -12,7 +12,6 @@ const PathsRoute = ({ collectionId }: PathsRouteProps) => {
     paths,
     showDrawer,
     hideDrawer,
-    addPath,
     isDrawerVisible,
   } = useContext<IPathContext>(PathContext);
 
@@ -23,8 +22,6 @@ const PathsRoute = ({ collectionId }: PathsRouteProps) => {
     setCollectionId(collectionId);
   }, [setCollectionId, collectionId]);
 
-  const onSaveClick = () => pathEditorForm.submit();
-
   return (
     <>
       <PageHeader
@@ -32,11 +29,13 @@ const PathsRoute = ({ collectionId }: PathsRouteProps) => {
         onBack={() => history.goBack()}
         title={"Paths"}
         subTitle={collectionName}
+        extra={[
+          <Button type="primary" onClick={showDrawer}>
+            Add Path
+          </Button>,
+        ]}
       />
       <PathTables paths={paths} showDrawer={showDrawer} />
-      <Button type="primary" onClick={showDrawer}>
-        Add Path
-      </Button>
       <Drawer
         title="New Path"
         placement="right"
@@ -53,13 +52,13 @@ const PathsRoute = ({ collectionId }: PathsRouteProps) => {
             <Button onClick={hideDrawer} style={{ marginRight: 8 }}>
               Cancel
             </Button>
-            <Button onClick={onSaveClick} type="primary">
+            <Button onClick={pathEditorForm.submit} type="primary">
               Save
             </Button>
           </div>
         }
       >
-        <PathEditor pathEditorForm={pathEditorForm} onSave={addPath} />
+        <PathEditor pathEditorForm={pathEditorForm} />
       </Drawer>
     </>
   );

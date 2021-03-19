@@ -6,6 +6,10 @@ import { CollectionToCollectionViewModelMapper } from "./mapper/CollectionToColl
 export interface ICollectionContext {
   collections: CollectionViewModel[];
   getCollections: () => void;
+  isDrawerVisible: boolean;
+  showDrawer: () => void;
+  hideDrawer: () => void;
+  addCollection: () => void;
 }
 
 export const createCollectionProvider = ({
@@ -14,6 +18,7 @@ export const createCollectionProvider = ({
 }: ICollectionDependencies): React.FC => {
   return ({ children }) => {
     const [collections, setCollections] = useState<CollectionViewModel[]>([]);
+    const [isDrawerVisible, setDrawerVisibility] = useState(false);
 
     useEffect(() => {
       getCollectionsUseCase
@@ -28,7 +33,24 @@ export const createCollectionProvider = ({
       );
     };
 
-    const context = { collections, getCollections };
+    const addCollection = async () => {};
+
+    const showDrawer = () => {
+      setDrawerVisibility(true);
+    };
+
+    const hideDrawer = () => {
+      setDrawerVisibility(false);
+    };
+
+    const context = {
+      collections,
+      getCollections,
+      showDrawer,
+      hideDrawer,
+      isDrawerVisible,
+      addCollection,
+    };
 
     return (
       <CollectionContext.Provider value={context}>
@@ -46,4 +68,8 @@ interface ICollectionDependencies {
 export const CollectionContext = createContext<ICollectionContext>({
   collections: [],
   getCollections: () => {},
+  hideDrawer(): void {},
+  showDrawer(): void {},
+  isDrawerVisible: false,
+  addCollection: () => {},
 });

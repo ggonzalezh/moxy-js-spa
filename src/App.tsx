@@ -24,7 +24,7 @@ function App() {
         <Header className="site-layout-background" style={{ padding: 0 }}>
           &nbsp;
         </Header>
-        <ContentRouter></ContentRouter>
+        <ContentRouter />
       </Layout>
     </Layout>
   );

@@ -9,8 +9,8 @@ export interface IPathContext {
   collectionId: string;
   collectionName: string;
   paths: PathViewModel[];
-  isDrawerVisible: boolean;
   setCollectionId: (collectionId: string) => void;
+  isDrawerVisible: boolean;
   showDrawer: () => void;
   hideDrawer: () => void;
   addPath: (path: any) => void;
@@ -82,9 +82,9 @@ export const PathContext = createContext<IPathContext>({
   addPath: () => {},
   hideDrawer(): void {},
   showDrawer(): void {},
+  isDrawerVisible: false,
   collectionId: "",
   collectionName: "",
   paths: [],
   setCollectionId: () => {},
-  isDrawerVisible: false,
 });

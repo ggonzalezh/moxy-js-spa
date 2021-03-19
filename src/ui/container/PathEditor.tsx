@@ -1,17 +1,20 @@
 import { Form, FormInstance, Input, Radio, Select } from "antd";
-import React from "react";
+import React, { useContext } from "react";
 import MockEditor from "./MockEditor";
+import { IPathContext, PathContext } from "../context/PathProvider";
 
 const methods = ["get", "post", "patch", "options", "put", "all"];
 
-const PathEditor = ({ pathEditorForm, onSave }: PathEditorProps) => {
+const PathEditor = ({ pathEditorForm }: PathEditorProps) => {
+  const { addPath } = useContext<IPathContext>(PathContext);
+
   return (
     <Form
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 32 }}
       layout={"vertical"}
       form={pathEditorForm}
-      onFinish={onSave}
+      onFinish={addPath}
     >
       <Form.Item label="Method" name={"method"} initialValue={"get"}>
         <Select>
@@ -38,7 +41,6 @@ const PathEditor = ({ pathEditorForm, onSave }: PathEditorProps) => {
 
 interface PathEditorProps {
   pathEditorForm: FormInstance;
-  onSave: (data: any) => void;
 }
 
 export default PathEditor;
