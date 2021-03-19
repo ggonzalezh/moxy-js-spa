@@ -9,6 +9,8 @@ import { createCollectionProvider, createPathProvider } from "../ui/context";
 import { AxiosGetCollectionsRepository } from "../data/AxiosGetCollectionsRepository";
 import { AddCollectionUseCase } from "../domain/AddCollectionUseCase";
 import { AxiosAddCollectionRepository } from "../data/AxiosAddCollectionRepository";
+import { AxiosDeleteCollectionRepository } from "../data/AxiosDeleteCollectionRepository";
+import { DeleteCollectionUseCase } from "../domain/DeleteCollectionUseCase";
 
 const axiosInstance = axios.create({ baseURL: "" });
 
@@ -18,6 +20,9 @@ export const CollectionProvider = createCollectionProvider({
   ),
   addCollectionUseCase: new AddCollectionUseCase(
     new AxiosAddCollectionRepository(axiosInstance)
+  ),
+  deleteCollectionUseCase: new DeleteCollectionUseCase(
+    new AxiosDeleteCollectionRepository(axiosInstance)
   ),
   collectionMapper: new CollectionToCollectionViewModelMapper(),
 });

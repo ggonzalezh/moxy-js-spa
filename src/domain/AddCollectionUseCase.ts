@@ -1,5 +1,5 @@
 import { Collection } from "./model/Collection";
-import { AddCollectionRepository } from "./repository/AxiosAddCollectionsRepository";
+import { AddCollectionRepository } from "./repository/AddCollectionsRepository";
 
 export class AddCollectionUseCase {
   constructor(

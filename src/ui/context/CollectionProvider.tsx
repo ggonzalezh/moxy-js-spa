@@ -4,6 +4,7 @@ import { GetCollectionsUseCase } from "../../domain/GetCollectionsUseCase";
 import { CollectionToCollectionViewModelMapper } from "./mapper/CollectionToCollectionViewModelMapper";
 import { AddCollectionUseCase } from "../../domain/AddCollectionUseCase";
 import { message } from "antd";
+import { DeleteCollectionUseCase } from "../../domain/DeleteCollectionUseCase";
 
 export interface ICollectionContext {
   collections: CollectionViewModel[];
@@ -12,11 +13,14 @@ export interface ICollectionContext {
   showDrawer: () => void;
   hideDrawer: () => void;
   addCollection: (collection: any) => void;
+  editCollection: (collection: any) => void;
+  removeCollection: (collection: any) => void;
 }
 
 export const createCollectionProvider = ({
   getCollectionsUseCase,
   addCollectionUseCase,
+  deleteCollectionUseCase,
   collectionMapper,
 }: ICollectionDependencies): React.FC => {
   return ({ children }) => {
@@ -44,6 +48,16 @@ export const createCollectionProvider = ({
       refresh({});
     };
 
+    const editCollection = async (collection: any) => {
+      showDrawer();
+    };
+
+    const removeCollection = async (collection: any) => {
+      await deleteCollectionUseCase.execute(collection);
+      message.success("Collection deleted");
+      refresh({});
+    };
+
     const showDrawer = () => {
       setDrawerVisibility(true);
     };
@@ -61,6 +75,8 @@ export const createCollectionProvider = ({
           hideDrawer,
           isDrawerVisible,
           addCollection,
+          editCollection,
+          removeCollection,
         }}
       >
         {children}
@@ -72,6 +88,7 @@ export const createCollectionProvider = ({
 interface ICollectionDependencies {
   getCollectionsUseCase: GetCollectionsUseCase;
   addCollectionUseCase: AddCollectionUseCase;
+  deleteCollectionUseCase: DeleteCollectionUseCase;
   collectionMapper: CollectionToCollectionViewModelMapper;
 }
 
@@ -82,4 +99,6 @@ export const CollectionContext = createContext<ICollectionContext>({
   showDrawer(): void {},
   isDrawerVisible: false,
   addCollection: () => {},
+  editCollection: () => {},
+  removeCollection: () => {},
 });

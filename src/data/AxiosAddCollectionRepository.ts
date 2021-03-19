@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import { Collection } from "../domain/model/Collection";
-import { AddCollectionRepository } from "../domain/repository/AxiosAddCollectionsRepository";
+import { AddCollectionRepository } from "../domain/repository/AddCollectionsRepository";
 
 export class AxiosAddCollectionRepository implements AddCollectionRepository {
   private readonly path = "/collections";
