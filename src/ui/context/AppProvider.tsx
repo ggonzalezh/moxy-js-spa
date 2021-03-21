@@ -12,12 +12,12 @@ export const createAppProvider = ({
   errorInterceptor,
 }: IAppDependencies): React.FC => ({ children }) => {
   useEffect(() => {
-    errorInterceptor.subscribe((error: any) => {
-      console.error(error);
-      return message.error(
+    errorInterceptor.subscribe((error: any) =>
+      message.error(
         error.response?.data?.message || error.message || "Unexpected error"
-      );
-    });
+      )
+    );
+    return () => errorInterceptor.unsubscribe();
   }, []);
 
   return <AppContext.Provider value={{}}>{children}</AppContext.Provider>;
