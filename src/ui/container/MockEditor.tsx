@@ -15,6 +15,14 @@ const MockEditor = () => {
         label="Content Type"
         name={"contentType"}
         initialValue={"application/json"}
+        requiredMark={"optional"}
+        rules={[
+          { required: true, message: "Please input content type" },
+          {
+            pattern: /^[-\w.]+\/[-\w.+,]+$/,
+            message: "Please input valid content type",
+          },
+        ]}
       >
         <Input />
       </Form.Item>

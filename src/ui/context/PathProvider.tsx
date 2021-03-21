@@ -4,6 +4,8 @@ import { GetCollectionByIdUseCase } from "../../domain/GetCollectionByIdUseCase"
 import { AddPathUseCase } from "../../domain/AddPathUseCase";
 import { PathViewModel } from "./model/PathViewModel";
 import { message } from "antd";
+import { PathFormViewModel } from "./model/PathFromViewModel";
+import { PathFormViewModelToPathMapper } from "./mapper/PathFormViewModelToPathMapper";
 
 export interface IPathContext {
   collectionId: string;
@@ -20,12 +22,14 @@ export interface IPathDependencies {
   collectionMapper: CollectionToCollectionViewModelMapper;
   getCollectionByIdUseCase: GetCollectionByIdUseCase;
   addPathUseCase: AddPathUseCase;
+  pathFormMapper: PathFormViewModelToPathMapper;
 }
 
 export const createPathProvider = ({
   collectionMapper,
   getCollectionByIdUseCase,
   addPathUseCase,
+  pathFormMapper,
 }: IPathDependencies): React.FC => ({ children }) => {
   const [collectionId, setCollectionId] = useState("");
   const [collectionName, setCollectionName] = useState("");
@@ -45,8 +49,10 @@ export const createPathProvider = ({
     }
   }, [collectionId, shouldRefresh]);
 
-  const addPath = async (path: any) => {
-    await addPathUseCase.execute({ collection: collectionId, ...path });
+  const addPath = async (path: PathFormViewModel) => {
+    await addPathUseCase.execute(
+      pathFormMapper.map({ ...path, collection: collectionId })
+    );
     hideDrawer();
     message.success("Path created");
     refresh({});

@@ -11,6 +11,7 @@ export class AxiosAddCollectionRepository implements AddCollectionRepository {
     let axiosResponse = await this.axios.post<string>(this.path, collection);
     return {
       id: axiosResponse.data,
+      basePath: collection.basePath,
       name: collection.name,
       paths: [],
     };

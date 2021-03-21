@@ -11,6 +11,7 @@ export class CollectionToCollectionViewModelMapper extends Mapper<
     return {
       id: collection.id,
       name: collection.name,
+      basePath: collection.basePath,
       paths: collection.paths.map((route) => {
         switch (route.type) {
           case "mock":

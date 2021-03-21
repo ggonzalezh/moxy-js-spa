@@ -13,6 +13,7 @@ import { AxiosDeleteCollectionRepository } from "../data/AxiosDeleteCollectionRe
 import { DeleteCollectionUseCase } from "../domain/DeleteCollectionUseCase";
 import { createAppProvider } from "../ui/context/AppProvider";
 import { AxiosErrorInterceptor } from "./AxiosErrorInterceptor";
+import { PathFormViewModelToPathMapper } from "../ui/context/mapper/PathFormViewModelToPathMapper";
 
 const axiosInstance: AxiosInstance = axios.create({ baseURL: "" });
 
@@ -35,6 +36,7 @@ export const PathProvider = createPathProvider({
     new AxiosGetCollectionByNameRepository(axiosInstance)
   ),
   collectionMapper: new CollectionToCollectionViewModelMapper(),
+  pathFormMapper: new PathFormViewModelToPathMapper(),
 });
 
 export const AppProvider = createAppProvider({
