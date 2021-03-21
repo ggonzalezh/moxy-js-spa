@@ -54,7 +54,7 @@ export const createCollectionProvider = ({
 
     const removeCollection = async (collection: any) => {
       await deleteCollectionUseCase.execute(collection);
-      message.success("Collection deleted");
+      message.info("Collection deleted");
       refresh({});
     };
 

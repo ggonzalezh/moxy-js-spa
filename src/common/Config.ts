@@ -1,5 +1,5 @@
 import { GetCollectionsUseCase } from "../domain/GetCollectionsUseCase";
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 import { CollectionToCollectionViewModelMapper } from "../ui/context/mapper/CollectionToCollectionViewModelMapper";
 import { AxiosAddPathRepository } from "../data/AxiosAddPathRepository";
 import { AddPathUseCase } from "../domain/AddPathUseCase";
@@ -11,8 +11,10 @@ import { AddCollectionUseCase } from "../domain/AddCollectionUseCase";
 import { AxiosAddCollectionRepository } from "../data/AxiosAddCollectionRepository";
 import { AxiosDeleteCollectionRepository } from "../data/AxiosDeleteCollectionRepository";
 import { DeleteCollectionUseCase } from "../domain/DeleteCollectionUseCase";
+import { createAppProvider } from "../ui/context/AppProvider";
+import { AxiosErrorInterceptor } from "./AxiosErrorInterceptor";
 
-const axiosInstance = axios.create({ baseURL: "" });
+const axiosInstance: AxiosInstance = axios.create({ baseURL: "" });
 
 export const CollectionProvider = createCollectionProvider({
   getCollectionsUseCase: new GetCollectionsUseCase(
@@ -33,4 +35,8 @@ export const PathProvider = createPathProvider({
     new AxiosGetCollectionByNameRepository(axiosInstance)
   ),
   collectionMapper: new CollectionToCollectionViewModelMapper(),
+});
+
+export const AppProvider = createAppProvider({
+  errorInterceptor: new AxiosErrorInterceptor(axiosInstance),
 });
