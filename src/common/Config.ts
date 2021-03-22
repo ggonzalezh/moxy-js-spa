@@ -7,13 +7,14 @@ import { GetCollectionByIdUseCase } from "../domain/GetCollectionByIdUseCase";
 import { AxiosGetCollectionByNameRepository } from "../data/AxiosGetCollectionByNameRepository";
 import { createCollectionProvider, createPathProvider } from "../ui/context";
 import { AxiosGetCollectionsRepository } from "../data/AxiosGetCollectionsRepository";
-import { AddCollectionUseCase } from "../domain/AddCollectionUseCase";
+import { SaveCollectionUseCase } from "../domain/SaveCollectionUseCase";
 import { AxiosAddCollectionRepository } from "../data/AxiosAddCollectionRepository";
 import { AxiosDeleteCollectionRepository } from "../data/AxiosDeleteCollectionRepository";
 import { DeleteCollectionUseCase } from "../domain/DeleteCollectionUseCase";
 import { createAppProvider } from "../ui/context/AppProvider";
 import { AxiosErrorInterceptor } from "./AxiosErrorInterceptor";
 import { PathFormViewModelToPathMapper } from "../ui/context/mapper/PathFormViewModelToPathMapper";
+import { AxiosUpdateCollectionRepository } from "../data/AxiosUpdateCollectionRepository";
 
 const axiosInstance: AxiosInstance = axios.create({ baseURL: "" });
 
@@ -21,8 +22,9 @@ export const CollectionProvider = createCollectionProvider({
   getCollectionsUseCase: new GetCollectionsUseCase(
     new AxiosGetCollectionsRepository(axiosInstance)
   ),
-  addCollectionUseCase: new AddCollectionUseCase(
-    new AxiosAddCollectionRepository(axiosInstance)
+  addCollectionUseCase: new SaveCollectionUseCase(
+    new AxiosAddCollectionRepository(axiosInstance),
+    new AxiosUpdateCollectionRepository(axiosInstance)
   ),
   deleteCollectionUseCase: new DeleteCollectionUseCase(
     new AxiosDeleteCollectionRepository(axiosInstance)

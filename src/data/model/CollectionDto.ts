@@ -1,7 +1,7 @@
 import { PathDto } from "./PathDto";
 
 export interface CollectionDto {
-  id: string;
+  id?: string;
   name: string;
   basePath: string;
   paths: PathDto[];

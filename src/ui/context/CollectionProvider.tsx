@@ -2,17 +2,18 @@ import React, { createContext, useEffect, useState } from "react";
 import { CollectionViewModel } from "./model/CollectionViewModel";
 import { GetCollectionsUseCase } from "../../domain/GetCollectionsUseCase";
 import { CollectionToCollectionViewModelMapper } from "./mapper/CollectionToCollectionViewModelMapper";
-import { AddCollectionUseCase } from "../../domain/AddCollectionUseCase";
+import { SaveCollectionUseCase } from "../../domain/SaveCollectionUseCase";
 import { message } from "antd";
 import { DeleteCollectionUseCase } from "../../domain/DeleteCollectionUseCase";
 
 export interface ICollectionContext {
   collections: CollectionViewModel[];
+  selectedCollection?: CollectionViewModel;
   getCollections: () => void;
   isDrawerVisible: boolean;
   showDrawer: () => void;
   hideDrawer: () => void;
-  addCollection: (collection: any) => void;
+  saveCollection: (collection: any) => void;
   editCollection: (collection: any) => void;
   removeCollection: (collection: any) => void;
 }
@@ -27,6 +28,9 @@ export const createCollectionProvider = ({
     const [collections, setCollections] = useState<CollectionViewModel[]>([]);
     const [isDrawerVisible, setDrawerVisibility] = useState(false);
     const [shouldRefresh, refresh] = useState<any>({});
+    const [selectedCollection, setSelectedCollection] = useState<
+      CollectionViewModel | undefined
+    >(undefined);
 
     useEffect(() => {
       getCollectionsUseCase
@@ -41,15 +45,16 @@ export const createCollectionProvider = ({
       );
     };
 
-    const addCollection = async (collection: any) => {
+    const saveCollection = async (collection: any) => {
       await addCollectionUseCase.execute(collection);
       hideDrawer();
-      message.success("Collection created");
+      message.success("Collection saved");
       refresh({});
     };
 
-    const editCollection = async (collection: any) => {
+    const editCollection = async (collection: CollectionViewModel) => {
       showDrawer();
+      setSelectedCollection(collection);
     };
 
     const removeCollection = async (collection: any) => {
@@ -64,6 +69,7 @@ export const createCollectionProvider = ({
 
     const hideDrawer = () => {
       setDrawerVisibility(false);
+      setSelectedCollection(undefined);
     };
 
     return (
@@ -74,9 +80,10 @@ export const createCollectionProvider = ({
           showDrawer,
           hideDrawer,
           isDrawerVisible,
-          addCollection,
+          saveCollection,
           editCollection,
           removeCollection,
+          selectedCollection,
         }}
       >
         {children}
@@ -87,7 +94,7 @@ export const createCollectionProvider = ({
 
 interface ICollectionDependencies {
   getCollectionsUseCase: GetCollectionsUseCase;
-  addCollectionUseCase: AddCollectionUseCase;
+  addCollectionUseCase: SaveCollectionUseCase;
   deleteCollectionUseCase: DeleteCollectionUseCase;
   collectionMapper: CollectionToCollectionViewModelMapper;
 }
@@ -98,7 +105,7 @@ export const CollectionContext = createContext<ICollectionContext>({
   hideDrawer(): void {},
   showDrawer(): void {},
   isDrawerVisible: false,
-  addCollection: () => {},
+  saveCollection: () => {},
   editCollection: () => {},
   removeCollection: () => {},
 });

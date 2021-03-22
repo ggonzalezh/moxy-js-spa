@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Form, FormInstance, Input } from "antd";
 import {
   CollectionContext,
@@ -6,7 +6,13 @@ import {
 } from "../context/CollectionProvider";
 
 const CollectionEditor = ({ pathEditorForm }: ICollectionEditorProps) => {
-  const { addCollection } = useContext<ICollectionContext>(CollectionContext);
+  const { saveCollection, selectedCollection } = useContext<ICollectionContext>(
+    CollectionContext
+  );
+
+  useEffect(() => {
+    pathEditorForm.resetFields();
+  }, [selectedCollection, pathEditorForm]);
 
   return (
     <Form
@@ -14,12 +20,15 @@ const CollectionEditor = ({ pathEditorForm }: ICollectionEditorProps) => {
       wrapperCol={{ span: 32 }}
       layout={"vertical"}
       form={pathEditorForm}
-      onFinish={addCollection}
+      onFinish={saveCollection}
     >
+      <Form.Item name={"id"} initialValue={selectedCollection?.id} hidden>
+        <Input />
+      </Form.Item>
       <Form.Item
         label="Name"
         name={"name"}
-        initialValue={""}
+        initialValue={selectedCollection?.name || ""}
         requiredMark={"optional"}
         rules={[{ required: true, message: "Please input collection name" }]}
       >
@@ -28,7 +37,7 @@ const CollectionEditor = ({ pathEditorForm }: ICollectionEditorProps) => {
       <Form.Item
         label="Base Path"
         name={"basePath"}
-        initialValue={""}
+        initialValue={selectedCollection?.basePath || ""}
         requiredMark={"optional"}
         rules={[
           { required: true, message: "Please input base path" },
