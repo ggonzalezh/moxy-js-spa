@@ -42,7 +42,7 @@ export class PathFormViewModelToPathMapper extends Mapper<
       contentType: mockFormViewModel.contentType,
       encoded: mockFormViewModel.encoded,
       method: mockFormViewModel.method,
-      path: mockFormViewModel.path,
+      path: `/${mockFormViewModel.path}`,
       responseBody: mockFormViewModel.responseBody,
       type: "mock",
     };
