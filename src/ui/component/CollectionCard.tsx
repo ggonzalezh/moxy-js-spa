@@ -2,7 +2,12 @@ import React, { useContext } from "react";
 import { CollectionViewModel } from "../context/model/CollectionViewModel";
 import { useHistory } from "react-router-dom";
 import { Card } from "antd";
-import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  DownloadOutlined,
+  EditOutlined,
+  EyeOutlined,
+} from "@ant-design/icons";
 import {
   CollectionContext,
   ICollectionContext,
@@ -11,9 +16,11 @@ import {
 const CollectionCard = (collection: CollectionViewModel) => {
   const { id, name, pathNumber } = collection;
   const history = useHistory();
-  const { editCollection, removeCollection } = useContext<ICollectionContext>(
-    CollectionContext
-  );
+  const {
+    editCollection,
+    removeCollection,
+    exportCollection,
+  } = useContext<ICollectionContext>(CollectionContext);
 
   const navigate = () => history.push(`./${id}`);
   const edit = () => editCollection(collection);
@@ -25,6 +32,10 @@ const CollectionCard = (collection: CollectionViewModel) => {
       actions={[
         <EyeOutlined key={"view"} onClick={navigate} />,
         <EditOutlined key={"view"} onClick={edit} />,
+        <DownloadOutlined
+          key={"export"}
+          onClick={() => exportCollection(collection)}
+        />,
         <DeleteOutlined key={"delete"} onClick={remove} />,
       ]}
     >

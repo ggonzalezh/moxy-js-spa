@@ -18,27 +18,44 @@ import { AxiosUpdateCollectionRepository } from "../data/AxiosUpdateCollectionRe
 
 const axiosInstance: AxiosInstance = axios.create({ baseURL: "" });
 
+const getCollectionByIdUseCase = new GetCollectionByIdUseCase(
+  new AxiosGetCollectionByNameRepository(axiosInstance)
+);
+
+const getCollectionsUseCase = new GetCollectionsUseCase(
+  new AxiosGetCollectionsRepository(axiosInstance)
+);
+
+const saveCollectionUseCase = new SaveCollectionUseCase(
+  new AxiosAddCollectionRepository(axiosInstance),
+  new AxiosUpdateCollectionRepository(axiosInstance)
+);
+
+const deleteCollectionUseCase = new DeleteCollectionUseCase(
+  new AxiosDeleteCollectionRepository(axiosInstance)
+);
+
+const collectionMapper = new CollectionToCollectionViewModelMapper();
+
+const addPathUseCase = new AddPathUseCase(
+  new AxiosAddPathRepository(axiosInstance)
+);
+
+const pathFormMapper = new PathFormViewModelToPathMapper();
+
 export const CollectionProvider = createCollectionProvider({
-  getCollectionsUseCase: new GetCollectionsUseCase(
-    new AxiosGetCollectionsRepository(axiosInstance)
-  ),
-  addCollectionUseCase: new SaveCollectionUseCase(
-    new AxiosAddCollectionRepository(axiosInstance),
-    new AxiosUpdateCollectionRepository(axiosInstance)
-  ),
-  deleteCollectionUseCase: new DeleteCollectionUseCase(
-    new AxiosDeleteCollectionRepository(axiosInstance)
-  ),
-  collectionMapper: new CollectionToCollectionViewModelMapper(),
+  getCollectionsUseCase,
+  saveCollectionUseCase,
+  deleteCollectionUseCase,
+  collectionMapper,
+  getCollectionByIdUseCase,
 });
 
 export const PathProvider = createPathProvider({
-  addPathUseCase: new AddPathUseCase(new AxiosAddPathRepository(axiosInstance)),
-  getCollectionByIdUseCase: new GetCollectionByIdUseCase(
-    new AxiosGetCollectionByNameRepository(axiosInstance)
-  ),
-  collectionMapper: new CollectionToCollectionViewModelMapper(),
-  pathFormMapper: new PathFormViewModelToPathMapper(),
+  addPathUseCase,
+  getCollectionByIdUseCase,
+  collectionMapper,
+  pathFormMapper,
 });
 
 export const AppProvider = createAppProvider({

@@ -1,14 +1,29 @@
-import { Button, Drawer, Form, List, PageHeader } from "antd";
+import { Button, Drawer, Form, List, PageHeader, Upload } from "antd";
 import CollectionCard from "../component/CollectionCard";
 import React, { useContext } from "react";
-import { CollectionContext } from "../context/CollectionProvider";
+import {
+  CollectionContext,
+  ICollectionContext,
+} from "../context/CollectionProvider";
 import CollectionEditor from "../container/CollectionEditor";
+import { FolderAddOutlined, UploadOutlined } from "@ant-design/icons";
+import { RcFile } from "antd/lib/upload";
 
 const CollectionsRoute = () => {
-  const { collections, isDrawerVisible, hideDrawer, showDrawer } = useContext(
-    CollectionContext
-  );
+  const {
+    collections,
+    isDrawerVisible,
+    hideDrawer,
+    showDrawer,
+    importCollection,
+    selectedCollection,
+  } = useContext<ICollectionContext>(CollectionContext);
   const [pathEditorForm] = Form.useForm();
+
+  const beforeUpload = (file: RcFile) => {
+    file.text().then(JSON.parse).then(importCollection);
+    return false;
+  };
 
   return (
     <>
@@ -16,7 +31,19 @@ const CollectionsRoute = () => {
         className={"content-header"}
         title={"Collections"}
         extra={[
-          <Button type="primary" onClick={showDrawer} key={"add-button"}>
+          <Upload
+            beforeUpload={beforeUpload}
+            showUploadList={false}
+            key={"import-button"}
+          >
+            <Button icon={<UploadOutlined />}>Import Collection</Button>
+          </Upload>,
+          <Button
+            icon={<FolderAddOutlined />}
+            type="primary"
+            onClick={showDrawer}
+            key={"add-button"}
+          >
             Add Collection
           </Button>,
         ]}
@@ -31,7 +58,7 @@ const CollectionsRoute = () => {
         )}
       />
       <Drawer
-        title="New Collection"
+        title={selectedCollection?.name || "New Collection"}
         placement="right"
         width={520}
         closable={true}

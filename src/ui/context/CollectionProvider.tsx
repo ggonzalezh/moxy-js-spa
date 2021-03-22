@@ -5,6 +5,7 @@ import { CollectionToCollectionViewModelMapper } from "./mapper/CollectionToColl
 import { SaveCollectionUseCase } from "../../domain/SaveCollectionUseCase";
 import { message } from "antd";
 import { DeleteCollectionUseCase } from "../../domain/DeleteCollectionUseCase";
+import { GetCollectionByIdUseCase } from "../../domain/GetCollectionByIdUseCase";
 
 export interface ICollectionContext {
   collections: CollectionViewModel[];
@@ -16,12 +17,15 @@ export interface ICollectionContext {
   saveCollection: (collection: any) => void;
   editCollection: (collection: any) => void;
   removeCollection: (collection: any) => void;
+  exportCollection: (collection: any) => void;
+  importCollection: (collection: any) => void;
 }
 
 export const createCollectionProvider = ({
   getCollectionsUseCase,
-  addCollectionUseCase,
+  saveCollectionUseCase,
   deleteCollectionUseCase,
+  getCollectionByIdUseCase,
   collectionMapper,
 }: ICollectionDependencies): React.FC => {
   return ({ children }) => {
@@ -46,9 +50,15 @@ export const createCollectionProvider = ({
     };
 
     const saveCollection = async (collection: any) => {
-      await addCollectionUseCase.execute(collection);
+      await saveCollectionUseCase.execute(collection);
       hideDrawer();
       message.success("Collection saved");
+      refresh({});
+    };
+
+    const importCollection = async (collection: any) => {
+      await saveCollectionUseCase.execute({ ...collection, id: undefined });
+      message.success("Collection imported");
       refresh({});
     };
 
@@ -72,6 +82,20 @@ export const createCollectionProvider = ({
       setSelectedCollection(undefined);
     };
 
+    const exportCollection = async (collection: CollectionViewModel) => {
+      const collectionToBeExported = await getCollectionByIdUseCase.execute(
+        collection.id!
+      );
+      const dataStr =
+        "data:text/json;charset=utf-8," +
+        encodeURIComponent(JSON.stringify(collectionToBeExported));
+      const anchorElement = document.createElement("a");
+      anchorElement.setAttribute("href", dataStr);
+      anchorElement.setAttribute("download", collection.name + ".json");
+      anchorElement.click();
+      anchorElement.remove();
+    };
+
     return (
       <CollectionContext.Provider
         value={{
@@ -84,6 +108,8 @@ export const createCollectionProvider = ({
           editCollection,
           removeCollection,
           selectedCollection,
+          exportCollection,
+          importCollection,
         }}
       >
         {children}
@@ -94,7 +120,8 @@ export const createCollectionProvider = ({
 
 interface ICollectionDependencies {
   getCollectionsUseCase: GetCollectionsUseCase;
-  addCollectionUseCase: SaveCollectionUseCase;
+  getCollectionByIdUseCase: GetCollectionByIdUseCase;
+  saveCollectionUseCase: SaveCollectionUseCase;
   deleteCollectionUseCase: DeleteCollectionUseCase;
   collectionMapper: CollectionToCollectionViewModelMapper;
 }
@@ -108,4 +135,6 @@ export const CollectionContext = createContext<ICollectionContext>({
   saveCollection: () => {},
   editCollection: () => {},
   removeCollection: () => {},
+  exportCollection: () => {},
+  importCollection: () => {},
 });
