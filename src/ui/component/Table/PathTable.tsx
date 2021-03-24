@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { PathViewModel } from "../../context/model/PathViewModel";
 import { Button, Table } from "antd";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { IPathContext, PathContext } from "../../context/PathProvider";
 
 export const PathTables = ({ paths, showDrawer }: PathTableProps) => {
+  const { deletePath } = useContext<IPathContext>(PathContext);
+
   const columns = [
     { title: "Type", dataIndex: "type", key: "type" },
     { title: "Path", dataIndex: "path", key: "path" },
@@ -12,9 +16,14 @@ export const PathTables = ({ paths, showDrawer }: PathTableProps) => {
     {
       title: "Action",
       key: "action",
-      render: () => (
+      render: (record: PathViewModel) => (
         <div>
-          <Button onClick={showDrawer}>Modify</Button>
+          <Button onClick={showDrawer}>
+            <EditOutlined />
+          </Button>
+          <Button>
+            <DeleteOutlined onClick={() => deletePath(record)} />
+          </Button>
         </div>
       ),
     },

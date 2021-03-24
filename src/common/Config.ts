@@ -15,6 +15,8 @@ import { createAppProvider } from "../ui/context/AppProvider";
 import { AxiosErrorInterceptor } from "./AxiosErrorInterceptor";
 import { PathFormViewModelToPathMapper } from "../ui/context/mapper/PathFormViewModelToPathMapper";
 import { AxiosUpdateCollectionRepository } from "../data/AxiosUpdateCollectionRepository";
+import { DeletePathUseCase } from "../domain/DeletePathUseCase";
+import { AxiosDeletePathRepository } from "../data/AxiosDeletePathRepository";
 
 const axiosInstance: AxiosInstance = axios.create({ baseURL: "" });
 
@@ -41,6 +43,10 @@ const addPathUseCase = new AddPathUseCase(
   new AxiosAddPathRepository(axiosInstance)
 );
 
+const deletePathUseCase = new DeletePathUseCase(
+  new AxiosDeletePathRepository(axiosInstance)
+);
+
 const pathFormMapper = new PathFormViewModelToPathMapper();
 
 export const CollectionProvider = createCollectionProvider({
@@ -53,6 +59,7 @@ export const CollectionProvider = createCollectionProvider({
 
 export const PathProvider = createPathProvider({
   addPathUseCase,
+  deletePathUseCase,
   getCollectionByIdUseCase,
   collectionMapper,
   pathFormMapper,

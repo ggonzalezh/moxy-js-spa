@@ -6,6 +6,7 @@ import { PathViewModel } from "./model/PathViewModel";
 import { message } from "antd";
 import { PathFormViewModel } from "./model/PathFromViewModel";
 import { PathFormViewModelToPathMapper } from "./mapper/PathFormViewModelToPathMapper";
+import { DeletePathUseCase } from "../../domain/DeletePathUseCase";
 
 export interface IPathContext {
   collectionId: string;
@@ -16,12 +17,14 @@ export interface IPathContext {
   showDrawer: () => void;
   hideDrawer: () => void;
   addPath: (path: any) => void;
+  deletePath: (path: any) => void;
 }
 
 export interface IPathDependencies {
   collectionMapper: CollectionToCollectionViewModelMapper;
   getCollectionByIdUseCase: GetCollectionByIdUseCase;
   addPathUseCase: AddPathUseCase;
+  deletePathUseCase: DeletePathUseCase;
   pathFormMapper: PathFormViewModelToPathMapper;
 }
 
@@ -29,6 +32,7 @@ export const createPathProvider = ({
   collectionMapper,
   getCollectionByIdUseCase,
   addPathUseCase,
+  deletePathUseCase,
   pathFormMapper,
 }: IPathDependencies): React.FC => ({ children }) => {
   const [collectionId, setCollectionId] = useState("");
@@ -58,6 +62,12 @@ export const createPathProvider = ({
     refresh({});
   };
 
+  const deletePath = async (path: PathViewModel) => {
+    await deletePathUseCase.execute({ ...path });
+    message.success("Path deleted");
+    refresh({});
+  };
+
   const showDrawer = () => {
     setDrawerVisibility(true);
   };
@@ -75,6 +85,7 @@ export const createPathProvider = ({
         isDrawerVisible,
         setCollectionId,
         addPath,
+        deletePath,
         showDrawer,
         hideDrawer,
       }}
@@ -86,6 +97,7 @@ export const createPathProvider = ({
 
 export const PathContext = createContext<IPathContext>({
   addPath: () => {},
+  deletePath: () => {},
   hideDrawer(): void {},
   showDrawer(): void {},
   isDrawerVisible: false,
