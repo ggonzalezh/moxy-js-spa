@@ -1,6 +1,7 @@
 import { PathMethod, PathType } from "../../../domain/model/Path";
 
 export interface PathFormViewModel {
+  id?: string;
   collection: string;
   method: PathMethod;
   path: string;

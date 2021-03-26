@@ -18,7 +18,7 @@ const CollectionsRoute = () => {
     importCollection,
     selectedCollection,
   } = useContext<ICollectionContext>(CollectionContext);
-  const [pathEditorForm] = Form.useForm();
+  const [collectionEditorForm] = Form.useForm();
 
   const beforeUpload = (file: RcFile) => {
     file.text().then(JSON.parse).then(importCollection);
@@ -73,13 +73,13 @@ const CollectionsRoute = () => {
             <Button onClick={hideDrawer} style={{ marginRight: 8 }}>
               Cancel
             </Button>
-            <Button onClick={pathEditorForm.submit} type="primary">
+            <Button onClick={collectionEditorForm.submit} type="primary">
               Save
             </Button>
           </div>
         }
       >
-        <CollectionEditor pathEditorForm={pathEditorForm} />
+        <CollectionEditor pathEditorForm={collectionEditorForm} />
       </Drawer>
     </>
   );

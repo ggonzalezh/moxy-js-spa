@@ -4,7 +4,7 @@ import { Form, Input, Select } from "antd";
 const MockEditor = () => {
   const schemeSelector = (
     <Form.Item name={"targetScheme"} noStyle>
-      <Select defaultValue={"http://"}>
+      <Select>
         {["http://", "https://"].map((scheme, index) => (
           <Select.Option key={index} value={scheme}>
             {scheme}

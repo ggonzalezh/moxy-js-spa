@@ -2,7 +2,7 @@ import { GetCollectionsUseCase } from "../domain/GetCollectionsUseCase";
 import axios, { AxiosInstance } from "axios";
 import { CollectionToCollectionViewModelMapper } from "../ui/context/mapper/CollectionToCollectionViewModelMapper";
 import { AxiosAddPathRepository } from "../data/AxiosAddPathRepository";
-import { AddPathUseCase } from "../domain/AddPathUseCase";
+import { SavePathUseCase } from "../domain/SavePathUseCase";
 import { GetCollectionByIdUseCase } from "../domain/GetCollectionByIdUseCase";
 import { AxiosGetCollectionByNameRepository } from "../data/AxiosGetCollectionByNameRepository";
 import { createCollectionProvider, createPathProvider } from "../ui/context";
@@ -17,6 +17,8 @@ import { PathFormViewModelToPathMapper } from "../ui/context/mapper/PathFormView
 import { AxiosUpdateCollectionRepository } from "../data/AxiosUpdateCollectionRepository";
 import { DeletePathUseCase } from "../domain/DeletePathUseCase";
 import { AxiosDeletePathRepository } from "../data/AxiosDeletePathRepository";
+import { PathViewModelToPathFromViewModelMapper } from "../ui/context/mapper/PathViewModelToPathFromViewModelMapper";
+import { AxiosUpdatePathRepository } from "../data/AxiosUpdatePathRepository";
 
 const axiosInstance: AxiosInstance = axios.create({ baseURL: "" });
 
@@ -39,8 +41,9 @@ const deleteCollectionUseCase = new DeleteCollectionUseCase(
 
 const collectionMapper = new CollectionToCollectionViewModelMapper();
 
-const addPathUseCase = new AddPathUseCase(
-  new AxiosAddPathRepository(axiosInstance)
+const addPathUseCase = new SavePathUseCase(
+  new AxiosAddPathRepository(axiosInstance),
+  new AxiosUpdatePathRepository(axiosInstance)
 );
 
 const deletePathUseCase = new DeletePathUseCase(
@@ -48,6 +51,8 @@ const deletePathUseCase = new DeletePathUseCase(
 );
 
 const pathFormMapper = new PathFormViewModelToPathMapper();
+
+const pathViewModelToFormMapper = new PathViewModelToPathFromViewModelMapper();
 
 export const CollectionProvider = createCollectionProvider({
   getCollectionsUseCase,
@@ -63,6 +68,7 @@ export const PathProvider = createPathProvider({
   getCollectionByIdUseCase,
   collectionMapper,
   pathFormMapper,
+  pathViewModelToFormMapper,
 });
 
 export const AppProvider = createAppProvider({

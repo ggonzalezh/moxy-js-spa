@@ -1,4 +1,4 @@
-import { Button, Drawer, Form, PageHeader } from "antd";
+import { Button, Drawer, PageHeader } from "antd";
 import React, { useContext, useEffect } from "react";
 import PathEditor from "../container/PathEditor";
 import { useHistory } from "react-router-dom";
@@ -13,9 +13,8 @@ const PathsRoute = ({ collectionId }: PathsRouteProps) => {
     showDrawer,
     hideDrawer,
     isDrawerVisible,
+    form,
   } = useContext<IPathContext>(PathContext);
-
-  const [pathEditorForm] = Form.useForm();
   const history = useHistory();
 
   useEffect(() => {
@@ -52,13 +51,13 @@ const PathsRoute = ({ collectionId }: PathsRouteProps) => {
             <Button onClick={hideDrawer} style={{ marginRight: 8 }}>
               Cancel
             </Button>
-            <Button onClick={pathEditorForm.submit} type="primary">
+            <Button onClick={form?.submit} type="primary">
               Save
             </Button>
           </div>
         }
       >
-        <PathEditor pathEditorForm={pathEditorForm} />
+        <PathEditor />
       </Drawer>
     </>
   );

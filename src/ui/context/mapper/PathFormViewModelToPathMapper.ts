@@ -28,6 +28,7 @@ export class PathFormViewModelToPathMapper extends Mapper<
 
   private mapProxy(proxyFormViewModel: ProxyFormViewModel): Proxy {
     return {
+      id: proxyFormViewModel.id,
       collection: proxyFormViewModel.collection,
       path: `/${proxyFormViewModel.path}`,
       method: proxyFormViewModel.method,
@@ -38,6 +39,7 @@ export class PathFormViewModelToPathMapper extends Mapper<
 
   private mapMock(mockFormViewModel: MockFormViewModel): Mock {
     return {
+      id: mockFormViewModel.id,
       collection: mockFormViewModel.collection,
       contentType: mockFormViewModel.contentType,
       encoded: mockFormViewModel.encoded,

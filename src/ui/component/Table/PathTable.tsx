@@ -6,8 +6,8 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { IPathContext, PathContext } from "../../context/PathProvider";
 
-export const PathTables = ({ paths, showDrawer }: PathTableProps) => {
-  const { deletePath } = useContext<IPathContext>(PathContext);
+export const PathTables = ({ paths }: PathTableProps) => {
+  const { deletePath, editPath } = useContext<IPathContext>(PathContext);
 
   const columns = [
     { title: "Type", dataIndex: "type", key: "type" },
@@ -18,7 +18,7 @@ export const PathTables = ({ paths, showDrawer }: PathTableProps) => {
       key: "action",
       render: (record: PathViewModel) => (
         <div>
-          <Button onClick={showDrawer}>
+          <Button onClick={() => editPath(record)}>
             <EditOutlined />
           </Button>
           <Button>
