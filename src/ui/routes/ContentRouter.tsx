@@ -9,7 +9,7 @@ const { Content } = Layout;
 
 export const ContentRouter = () => {
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <Content
         className="site-layout-background"
         style={{

@@ -20,7 +20,7 @@ import { AxiosDeletePathRepository } from "../data/AxiosDeletePathRepository";
 import { PathViewModelToPathFromViewModelMapper } from "../ui/context/mapper/PathViewModelToPathFromViewModelMapper";
 import { AxiosUpdatePathRepository } from "../data/AxiosUpdatePathRepository";
 
-const axiosInstance: AxiosInstance = axios.create({ baseURL: "" });
+const axiosInstance: AxiosInstance = axios.create({ baseURL: "/api" });
 
 const getCollectionByIdUseCase = new GetCollectionByIdUseCase(
   new AxiosGetCollectionByNameRepository(axiosInstance)
