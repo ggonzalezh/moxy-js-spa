@@ -18,5 +18,5 @@ export interface Mock extends Path {
   encoded?: boolean;
 }
 
-type PathType = "mock" | "proxy";
-type PathMethod = "get" | "post" | "patch" | "options" | "put" | "all";
+export type PathType = "mock" | "proxy";
+export type PathMethod = "get" | "post" | "patch" | "options" | "put" | "all";
